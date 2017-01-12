@@ -1,0 +1,20 @@
+{
+  "name": "ticket_system",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Michael Prather"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/shintech/ticket_system",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
