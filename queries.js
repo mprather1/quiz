@@ -1,4 +1,6 @@
 var Question = require("./db/db").question;
+var Answer = require("./db/db").answer;
+
 
 function getAllQuestions(req, res){
   Question.find(function(err, question){
@@ -6,14 +8,6 @@ function getAllQuestions(req, res){
     res.json(question);
   });
 }
-
-// function getSingleQuestion(req, res){
-//   Question.findById(req.params.id, function(err, question){
-//     if (err){ res.send(err); }
-//     res.status(200)
-//     .json(question);
-//   });
-// }
 
 function getSingleQuestion(req, res){
   Question.findById(req.params.id)
@@ -25,12 +19,49 @@ function getSingleQuestion(req, res){
 }
 
 function createQuestion(req, res){
-  var question = new Question();
-  question.name = req.body.name;
-  question.save(function(err){
-    res.status(200)
-      .json({ success: question, message: "Created one question...", })
+  
+  var question = new Question({
+    content: req.body.content
+  });
+  
+  var answer1 = new Answer({
+    _question: question._id,
+    content: req.body.answer1
+  });  
+  var answer2 = new Answer({
+    _question: question._id,
+    content: req.body.answer2
+  });  
+  var answer3 = new Answer({
+    _question: question._id,
+    content: req.body.answer3
+  });  
+  var answer4 = new Answer({
+    _question: question._id,
+    content: req.body.answer4
+  }); 
+  
+  answer1.save(function(err){
+    if(err){ console.log(err) }
   })
+  answer2.save(function(err){
+    if(err){ console.log(err) }
+  })
+  answer3.save(function(err){
+    if(err){ console.log(err) }
+  })
+  answer4.save(function(err){
+    if(err){ console.log(err) }
+  })
+  
+  question.answers.push(answer1, answer2, answer3, answer4);
+  
+  question.save(function(err, data){  
+    res.status(200)
+      .json({ success: data, message: "Created one question...", })
+  })
+
+
 }
 
 function updateQuestion(req, res){
@@ -42,7 +73,6 @@ function updateQuestion(req, res){
       res.json({ updated: question, message: "Question updated..."});
     });
   });
-  
 }
 
 function removeQuestion(req, res){
